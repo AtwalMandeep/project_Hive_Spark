@@ -30,6 +30,7 @@ Technology to use
 1)Hive .
 2)Spark
 3)Scala
+4)sql
 
 All the quaries should be and app  with menu
 
