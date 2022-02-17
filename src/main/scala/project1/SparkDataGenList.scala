@@ -59,7 +59,7 @@ class SparkDataGenList  {
       "from BranchAndBeverageTable join BeverageAndConsumptionTable ON " +
       "BranchAndBeverageTable.beverageName= BeverageAndConsumptionTable.beverageName " +
       "Where branchName='Branch1' " +
-      "group by BranchAndBeverageTable.beverageName " + "order by sum(BeverageAndConsumptionTable.consumers)DESC limit 20" ).show()
+      "group by BranchAndBeverageTable.beverageName " + "order by sum(BeverageAndConsumptionTable.consumers)DESC limit 1" ).show()
     }
    def getAvgConsumedBev():Unit= {
        println("What is the Average consumed beverage on Branch1?")
@@ -78,9 +78,9 @@ class SparkDataGenList  {
                "group by BranchAndBeverageTable.beverageName " + "order by sum(BeverageAndConsumptionTable.consumers)asc limit 1" ).show()
     }
     def getAllBev():Unit= {
-        println("What are the beverage available on Branch9,Branch8,and Branch1?")
+        println("What are the beverage available on Branch10,Branch8,and Branch1?")
         spark.sql("select DISTINCT beverageName,branchName from BranchAndBeverageTable " +
-                "where branchName = 'Branch1' or branchName = 'Branch8' or branchName='Branch9' order by branchName").show(100)
+                "where branchName = 'Branch1' or branchName = 'Branch8' or branchName='Branch10' order by branchName").show(100)
     }
     def getCommonBev():Unit= {
         println("What are the common bevrages available in Branch4,Branch7 ?")
@@ -136,9 +136,13 @@ class SparkDataGenList  {
                  "B ON BranchAndBeverageTable.beverageName=B.beverageName WHERE B.beverageName IS NULL").show();
      }
       def AddFutureQuery() {
-       //println("Problem Scenario- add a future query")
-
-       }
+       //spark.sql(("drop table branches_table_future_query"))
+       println("Problem Scenario- Add a Future query")
+        spark.sql("create table IF NOT EXISTS branches_table_future_query(day Int,consumption Int) " +
+                  "row format delimited fields terminated by ',' stored as textfile");
+        spark.sql("LOAD DATA LOCAL INPATH 'input/prediction.txt' OVERWRITE INTO TABLE branches_table_future_query")
+        spark.sql("select * from branches_table_future_query").show()
+      }
       def exit(): Unit ={
         println("Thank you")
          System.exit(0)
