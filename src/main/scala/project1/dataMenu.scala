@@ -55,6 +55,8 @@ object dataMenu extends ScenariosData
           case 7 => {
             sys.exit(0)
           }
+
+          println("Dummy line TEST")
         }
 
       }
